@@ -7,13 +7,29 @@ const { db } = require("./models");
 const app = express();
 
 // ? import routes
+const userRoutes = require("./routes/User.router");
 
 // ? PORT
 const PORT = ENV.PORT || 8000;
 
 // ? Middlewares
+app.use(express.json()); // parse JSON data
 
 // ? Prefix
+app.use("/api/user", userRoutes);
+
+// ? Middleware for error handling
+app.use((err, req, res, next) => {
+  const status = err.status || 500;
+  const message = err.message || "Internal Server Error";
+  const details = err.details || null;
+
+  res.status(status).json({
+    status,
+    message,
+    details,
+  });
+});
 
 // ? Server
 const startServer = async () => {
