@@ -8,6 +8,7 @@ const app = express();
 
 // ? import routes
 const userRoutes = require("./routes/User.router");
+const articleRoutes = require("./routes/Article.router");
 
 // ? PORT
 const PORT = ENV.PORT || 8000;
@@ -17,6 +18,7 @@ app.use(express.json()); // parse JSON data
 
 // ? Prefix
 app.use("/api/user", userRoutes);
+app.use("/api/article", articleRoutes);
 
 // ? Middleware for error handling
 app.use((err, req, res, next) => {
