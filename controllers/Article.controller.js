@@ -1,4 +1,4 @@
-const Article = require("../models/Article.model");
+const { Article, Notice } = require("../models");
 const createError = require("../middlewares/error");
 
 exports.createArticle = async (req, res, next) => {
@@ -82,6 +82,28 @@ exports.deleteArticle = async (req, res, next) => {
     res.status(200).json({
       message: "Article deleted successfully",
       articleId: req.params.id,
+    });
+  } catch (error) {
+    next(createError(500, `Internal Server Error ${error.message}`));
+  }
+};
+
+exports.articleWithNotice = async (req, res, next) => {
+  try {
+    const article = await Article.findByPk(req.params.id, {
+      include: {
+        model: Notice,
+        as: "Notices",
+      },
+    });
+
+    // check if article exists
+    if (!article) return next(createError(404, "Article not found"));
+
+    // send response
+    res.status(200).json({
+      message: "Article found",
+      article: article,
     });
   } catch (error) {
     next(createError(500, `Internal Server Error ${error.message}`));

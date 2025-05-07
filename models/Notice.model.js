@@ -13,6 +13,14 @@ const Notice = db.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false, // required field
+    },
+    articleId: {
+      type: DataTypes.INTEGER,
+      allowNull: false, // required field
+    },
   },
   {
     timestamps: true, // createdAt and updatedAt fields
